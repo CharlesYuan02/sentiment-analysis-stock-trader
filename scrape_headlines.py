@@ -47,3 +47,6 @@ all_headlines = []
 for ticker in tqdm(list(tickers.keys())):
     all_headlines += get_headlines(ticker, tickers[ticker])
 print (all_headlines)
+file = open('output.txt', 'w')
+file.writelines(all_headlines)
+file.close()
