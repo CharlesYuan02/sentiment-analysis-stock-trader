@@ -21,4 +21,26 @@ print (url)
 webpage = requests.get(url, headers=headers)
 soup = BeautifulSoup.BeautifulSoup(webpage.content)
 for link in soup.find_all('a', href=True):
-    print (link)
+    #print (link)
+    #print (type(link))
+    #print (str(link))
+    
+    
+    '''
+    if 'MMM' in str(link):
+        print (link)
+        print ("")
+    '''
+    # make sure to lower case the tickeres and names here
+    if 'mmm' in link['href'] or '3m' in link['href']: # sometimes mmm is called 3m tho so this won't scrape all the headlines    have a dict with corresponding names
+        print (link)
+        for i in link.find_all('u'):
+            print (i)
+            print (type(i))
+            print (str(i))
+            headline = ''
+            j = str(link).find(str(i)) + len(str(i))
+            while str(link)[j] != '<':
+                headline += str(link)[j]
+                j += 1
+            print (headline)
