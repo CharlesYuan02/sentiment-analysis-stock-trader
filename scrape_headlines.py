@@ -41,12 +41,13 @@ def get_headlines(ticker, name):
     return headlines
                 
 
-
-tickers = get_tickers('https://en.wikipedia.org/wiki/List_of_S%26P_500_companies')
-all_headlines = []
-for ticker in tqdm(list(tickers.keys())):
-    all_headlines += get_headlines(ticker, tickers[ticker])
-print (all_headlines)
-file = open('output.txt', 'w')
-file.writelines(all_headlines)
-file.close()
+if __name__ == "__main__":
+    tickers = get_tickers('https://en.wikipedia.org/wiki/List_of_S%26P_500_companies')
+    print (tickers)
+    all_headlines = []
+    for ticker in tqdm(list(tickers.keys())):
+        all_headlines += get_headlines(ticker, tickers[ticker])
+    print (all_headlines)
+    file = open('output.txt', 'w')
+    file.writelines(all_headlines)
+    file.close()
