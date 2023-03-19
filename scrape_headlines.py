@@ -51,3 +51,9 @@ if __name__ == "__main__":
     file = open('output.txt', 'w')
     file.writelines(all_headlines)
     file.close()
+
+'''
+next steps:
+also scrape information like the date, and figure out how to get more of the headlines from the same page (like why does it only get the first one)
+also look for other sources for news about s and p 500 stocks
+'''
