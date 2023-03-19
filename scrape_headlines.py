@@ -23,9 +23,9 @@ def get_tickers(url):
         tickers[ticker] = name
     return tickers # dictionary with keys tickers, and values the corresponding names
 
-def get_headlines(ticker, name):
+def get_headlines_yahoo(ticker, name):
     headers = {'User-agent': 'Mozilla/5.0'}
-    url = ("https://finance.yahoo.com/quote/{}/new?p={}".format(ticker, ticker))
+    url = ("https://finance.yahoo.com/quote/{}/news?p={}".format(ticker, ticker))     # this should be news not new??
     webpage = requests.get(url, headers = headers)
     soup = bs.BeautifulSoup(webpage.content)
     headlines = []
@@ -39,21 +39,51 @@ def get_headlines(ticker, name):
                     j += 1
                 headlines.append(headline)
     return headlines
-                
+
+def get_headlines_marketwatch(ticker, name):
+    url = 'https://www.marketwatch.com/investing/stock/' + ticker.lower()
+    response = requests.get(url)
+    soup = BeautifulSoup(response.text, 'html.parser')
+    headlines = []
+    for headline in soup.find_all('h3', class_ = 'article__headline'):
+        headline_clean = headline.text.strip()
+        '''
+        for category_name in ['Markets', 'Opinion', 'Technology', 'Companies', 'Transportation', 'Manufacturing', 'Aerospace and Defense']:
+            if headline_clean[:len(category_name)] == category_name:
+                headline_clean = headline_clean[len(category_name):]
+        '''
+        if '\n' in headline_clean and '    ' in headline_clean and headline_clean[0] != ' ':
+            idx = 0
+            while headline_clean[idx] != ' ':
+                idx += 1
+            headline_clean = headline_clean[idx:]        
+            headline_clean = headline_clean.strip()
+        if name in headline_clean or name.lower() in headline_clean:
+            headlines.append(headline_clean)
+    return headlines
 
 if __name__ == "__main__":
     tickers = get_tickers('https://en.wikipedia.org/wiki/List_of_S%26P_500_companies')
     print (tickers)
     all_headlines = []
     for ticker in tqdm(list(tickers.keys())):
-        all_headlines += get_headlines(ticker, tickers[ticker])
+        all_headlines += get_headlines_marketwatch(ticker, tickers[ticker])
+    print (all_headlines)
+    file = open('output2.txt', 'w')
+    file.writelines(all_headlines)
+    file.close()
+    '''
+    for ticker in tqdm(list(tickers.keys())):
+        all_headlines += get_headlines_yahoo(ticker, tickers[ticker])
     print (all_headlines)
     file = open('output.txt', 'w')
     file.writelines(all_headlines)
     file.close()
+    '''
 
 '''
 next steps:
 also scrape information like the date, and figure out how to get more of the headlines from the same page (like why does it only get the first one)
 also look for other sources for news about s and p 500 stocks
+also save what stock corresponds to the headline
 '''
