@@ -1,5 +1,6 @@
 import praw
 from scrape_headlines import get_tickers
+from datetime import datetime
 with open("info.txt") as f:
     lines = f.readlines()
     CLIENT_ID = lines[0][:-1]
@@ -26,13 +27,15 @@ def get_titles_and_comments(subreddit, num_posts, max_comments_per_post):
     tickers = get_tickers("https://en.wikipedia.org/wiki/List_of_S%26P_500_companies")
     for post in reddit.subreddit(subreddit).hot(limit = num_posts):
         for ticker in list(tickers.keys()):
-            if tickers[ticker] in post.title or tickers[ticker].lower() in post.title and post.title not in titles:
-                titles.append(post.title)
+            if tickers[ticker] in post.title or tickers[ticker].lower() in post.title and post.title not in [i[1] for i in titles]:
+                #titles.append(post.title)
+                titles.append((ticker, post.title, str(datetime.fromtimestamp(post.created_utc))))
                 post.comments.replace_more(limit = 0)
                 for i in range(len(post.comments)):
                     if i > max_comments_per_post:
                         break
-                    comments.append((ticker, post.comments[i].body)) # keep track of the ticker corresponding to the comment, because 
+                    #comments.append((ticker, post.comments[i].body, post.comments[i].created_utc))
+                    comments.append((ticker, post.comments[i].body, str(datetime.fromtimestamp(post.comments[i].created_utc)))) # keep track of the ticker corresponding to the comment, because 
                                                                      # the comment won't necessarily mention it, unlike the title
                                                                      # also, rn didn't consider comment threads (replies to comments) but 
                                                                      # could possibly do that too

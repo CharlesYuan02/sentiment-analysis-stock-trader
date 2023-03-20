@@ -45,13 +45,18 @@ def get_headlines_marketwatch(ticker, name):
     response = requests.get(url)
     soup = BeautifulSoup(response.text, 'html.parser')
     headlines = []
+    dates = []
     for headline in soup.find_all('h3', class_ = 'article__headline'):
-        headline_clean = headline.text.strip()
-        '''
-        for category_name in ['Markets', 'Opinion', 'Technology', 'Companies', 'Transportation', 'Manufacturing', 'Aerospace and Defense']:
-            if headline_clean[:len(category_name)] == category_name:
-                headline_clean = headline_clean[len(category_name):]
-        '''
+        headlines.append(headline)
+    for date in soup.find_all('span', class_ = 'article__timestamp'):
+        dates.append(date.string)
+    try:
+        output_uncleaned = [(headlines[i], dates[i]) for i in range(len(headlines))]
+    except:
+        output_uncleaned = [(headlines[i], dates[i]) for i in range(len(dates))]
+    output_cleaned = []
+    for tuple in output_uncleaned:
+        headline_clean = tuple[0].text.strip()
         if '\n' in headline_clean and '    ' in headline_clean and headline_clean[0] != ' ':
             idx = 0
             while headline_clean[idx] != ' ':
@@ -59,8 +64,9 @@ def get_headlines_marketwatch(ticker, name):
             headline_clean = headline_clean[idx:]        
             headline_clean = headline_clean.strip()
         if name in headline_clean or name.lower() in headline_clean:
-            headlines.append(headline_clean)
-    return headlines
+            output_cleaned.append((ticker, headline_clean, tuple[1]))
+    return output_cleaned
+    
 
 if __name__ == "__main__":
     tickers = get_tickers('https://en.wikipedia.org/wiki/List_of_S%26P_500_companies')
@@ -86,4 +92,5 @@ next steps:
 also scrape information like the date, and figure out how to get more of the headlines from the same page (like why does it only get the first one)
 also look for other sources for news about s and p 500 stocks
 also save what stock corresponds to the headline
+fix the yahoo scraping to make it scrape more headlines
 '''
