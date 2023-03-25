@@ -25,7 +25,7 @@ This file calls functions defined in the other files to create a dataset (this i
 This is the example dataset created using create_dataset.py.
 
 ### <a href = "https://github.com/Chubbyman2/sentiment-analysis-stock-trader/blob/main/finbert.py">finbert.py</a>
-This file uses the pretrained FinBERT model on the example dataseet.
+This file uses the pretrained FinBERT model on the example dataset.
 
 ### <a href = "https://github.com/Chubbyman2/sentiment-analysis-stock-trader/blob/main/scrape_headlines.py">scrape_headlines.py</a>
 This file contains functions to scrape S and P 500 stock tickers and names from Wikipedia, scrape news headlines for any S and P 500 stock from Yahoo Finance, and scrape news headlines for any S and P 500 stock from MarketWatch.
