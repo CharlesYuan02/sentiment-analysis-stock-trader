@@ -29,13 +29,13 @@ def get_titles_and_comments(subreddit, num_posts, max_comments_per_post):
         for ticker in list(tickers.keys()):
             if tickers[ticker] in post.title or tickers[ticker].lower() in post.title and post.title not in [i[1] for i in titles]:
                 #titles.append(post.title)
-                titles.append((ticker, post.title, str(datetime.fromtimestamp(post.created_utc))))
+                titles.append((ticker, post.title, str(datetime.fromtimestamp(post.created_utc)), post.url))
                 post.comments.replace_more(limit = 0)
                 for i in range(len(post.comments)):
                     if i > max_comments_per_post:
                         break
                     #comments.append((ticker, post.comments[i].body, post.comments[i].created_utc))
-                    comments.append((ticker, post.comments[i].body, str(datetime.fromtimestamp(post.comments[i].created_utc)))) # keep track of the ticker corresponding to the comment, because 
+                    comments.append((ticker, post.comments[i].body, str(datetime.fromtimestamp(post.comments[i].created_utc)), post.url)) # keep track of the ticker corresponding to the comment, because 
                                                                      # the comment won't necessarily mention it, unlike the title
                                                                      # also, rn didn't consider comment threads (replies to comments) but 
                                                                      # could possibly do that too
