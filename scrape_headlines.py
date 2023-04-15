@@ -50,10 +50,17 @@ def get_headlines_marketwatch(ticker, name):
         headlines.append(headline)
     for date in soup.find_all('span', class_ = 'article__timestamp'):
         dates.append(date.string)
+    #urls = [i.find('a', class_='link').get('href') for i in headlines]
+    urls = []
+    for i in headlines:
+        try:
+            urls.append(i.find('a', class_='link').get('href'))
+        except:
+            urls.append("N/A")
     try:
-        output_uncleaned = [(headlines[i], dates[i]) for i in range(len(headlines))]
+        output_uncleaned = [(headlines[i], dates[i], urls[i]) for i in range(len(headlines))]
     except:
-        output_uncleaned = [(headlines[i], dates[i]) for i in range(len(dates))]
+        output_uncleaned = [(headlines[i], dates[i], urls[i]) for i in range(len(dates))]
     output_cleaned = []
     for tuple in output_uncleaned:
         headline_clean = tuple[0].text.strip()
@@ -64,7 +71,7 @@ def get_headlines_marketwatch(ticker, name):
             headline_clean = headline_clean[idx:]        
             headline_clean = headline_clean.strip()
         if name in headline_clean or name.lower() in headline_clean:
-            output_cleaned.append((ticker, headline_clean, tuple[1]))
+            output_cleaned.append((ticker, headline_clean, tuple[1], tuple[2]))
     return output_cleaned
     
 
@@ -75,9 +82,9 @@ if __name__ == "__main__":
     for ticker in tqdm(list(tickers.keys())):
         all_headlines += get_headlines_marketwatch(ticker, tickers[ticker])
     print (all_headlines)
-    file = open('output2.txt', 'w')
-    file.writelines(all_headlines)
-    file.close()
+    #file = open('output2.txt', 'w')
+    #file.writelines(all_headlines)
+    #file.close()
     '''
     for ticker in tqdm(list(tickers.keys())):
         all_headlines += get_headlines_yahoo(ticker, tickers[ticker])

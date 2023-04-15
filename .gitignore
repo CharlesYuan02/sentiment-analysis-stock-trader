@@ -2,3 +2,6 @@ __pycache__
 test.py
 info.txt
 scrape_twitter.py
+output.txt
+output2.txt
+__pycache__/

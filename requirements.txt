@@ -1,3 +1,9 @@
+beautifulsoup4==4.12.0
+pandas==1.2.3
+praw==7.7.0
+requests==2.28.1
+snscrape==0.3.4
+tqdm==4.56.2
 numpy==1.24.2
 praw==7.7.0
 scikit-learn==1.2.2

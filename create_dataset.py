@@ -21,7 +21,7 @@ reddit_data = reddit_titles + reddit_comments
 print(reddit_data)
 
 dataset = marketwatch_data + reddit_data
-column_names = ['Ticker', 'Text', 'Date']
+column_names = ['Ticker', 'Text', 'Date', 'URL']
 df = pd.DataFrame(dataset, columns = column_names)
 df.to_csv('dataset.csv')
 # for now just going to use marketwatch and reddit
