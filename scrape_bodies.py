@@ -24,8 +24,3 @@ for x in df['Text']:   # need to add corresponding url to the dataset
     print ("")
     import time
     time.sleep(2)
-
-    if val == 'hold':
-        # scrape the body of the article in case the headline is ambiguous
-        # in the case of news headlines, would just scrape the url
-        # what to store in the dataset in case of reddit posts?
