@@ -13,12 +13,12 @@ tickers = get_tickers('https://en.wikipedia.org/wiki/List_of_S%26P_500_companies
 marketwatch_data = []
 for ticker in tqdm(list(tickers.keys())):
     marketwatch_data += get_headlines_marketwatch(ticker, tickers[ticker])
-print (marketwatch_data)
+print(marketwatch_data)
 
 reddit_data = []
 reddit_titles, reddit_comments = get_titles_and_comments("stocks", 50, 10)
 reddit_data = reddit_titles + reddit_comments
-print (reddit_data)
+print(reddit_data)
 
 dataset = marketwatch_data + reddit_data
 column_names = ['Ticker', 'Text', 'Date']
