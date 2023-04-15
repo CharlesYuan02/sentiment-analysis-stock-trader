@@ -5,3 +5,4 @@ scrape_twitter.py
 output.txt
 output2.txt
 __pycache__/
+finetune.csv
